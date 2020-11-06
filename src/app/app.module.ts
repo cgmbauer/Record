@@ -2,10 +2,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { XablauComponent } from './xablau/xablau.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    XablauComponent
   ],
   imports: [
     BrowserModule

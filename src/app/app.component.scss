@@ -1,0 +1,32 @@
+.red {
+  background: red !important;
+}
+
+.margin-right {
+  margin-right: 10px;
+}
+
+.flex-box {
+  display: flex;
+
+  margin-top: 15px;
+  input {
+    margin-right: 5px;
+  }
+}
+
+
+.button {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 500;
+
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.5);
+
+  margin-left: 6px;
+
+  text-transform: uppercase;
+
+}
