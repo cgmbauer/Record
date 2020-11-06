@@ -3,12 +3,12 @@
 </button>
 
 <div class="flex-box">
-  <input type="email" />
-  <input type="password" />
-  <button [disabled]="disabled" class="red button">Entrar</button>
+  <input type="email" name="email" appCustomPlaceholder />
+  <input type="password" name="password" appCustomPlaceholder/>
+  <button [ngClass]="{'blue': isBlue}" [disabled]="disabled" class="red button">Entrar</button>
 </div>
 
-<p>22 + 22 = {{22+22}}</p>
+<p [ngClass]="{'hidden': isHidden}">22 + 22 = {{22+22}}</p>
 <p>{{title}}</p>
 
 
