@@ -7,14 +7,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'wendy';
-  disabled = 'true';
-  isHidden = false;
-  isBlue = false;
+  isFavorite = true;
+  ataque = 0;
 
-  handleClick() {
-    this.isHidden = !this.isHidden;
 
-    this.isBlue = !this.isBlue;
+  handleStarClick(): void {
+    this.isFavorite = !this.isFavorite;
+  }
 
+  handleAtk(): void {
+   this.ataque = Math.floor(20 * Math.random() + 1);
   }
 }
