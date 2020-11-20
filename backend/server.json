@@ -1,0 +1,19 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Caneta BIC Preta",
+      "price": 5.99
+    },
+    {
+      "id": 2,
+      "name": "Notebook Mac Pro",
+      "price": 12000.00
+    },
+    {
+      "id": 3,
+      "name": "Folha de Papel",
+      "price": 0.50
+    }
+  ]
+}
