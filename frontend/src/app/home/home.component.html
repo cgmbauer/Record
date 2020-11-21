@@ -1,1 +1,34 @@
-<p>home works!</p>
+<main class="home-container">
+  <section class="container__register">
+    <form>
+      <input
+        type="text"
+        name="doit"
+        placeholder="O que deseja fazer hoje?"
+        required
+      />
+      <button type="submit">Adicionar!</button>
+    </form>
+  </section>
+
+  <section class="container_results">
+    <p class="results_title">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+
+    <div class="results_timer">
+      <div class="timer-buttons">
+        <button>
+          <fa-icon [icon]="pauseCircle"></fa-icon>
+        </button>
+        <button>
+          <fa-icon [icon]="playCircle"></fa-icon>
+        </button>
+        <button>
+          <fa-icon [icon]="stopCircle"></fa-icon>
+        </button>
+      </div>
+
+      <p class="timer-display">0:0:0</p>
+
+    </div>
+  </section>
+</main>
