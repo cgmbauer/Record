@@ -1,18 +1,26 @@
 <main class="home-container">
+  <section class="container__logo">
+    <img [src]="logo" alt="record logo" />
+  </section>
   <section class="container__register">
-    <form>
+    <form (submit)="handleSubmit()">
       <input
         type="text"
         name="doit"
         placeholder="O que deseja fazer hoje?"
         required
+        #doit="ngModel"
+        [(ngModel)]="form.userInput"
       />
-      <button type="submit">Adicionar!</button>
+      <button type="submit">Adicionar</button>
     </form>
   </section>
 
-  <section class="container_results">
-    <p class="results_title">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+  <section
+    class="container_results"
+    *ngFor="let list of doList"
+  >
+    <p class="results_title">{{list.userInput}}</p>
 
     <div class="results_timer">
       <div class="timer-buttons">
@@ -27,8 +35,9 @@
         </button>
       </div>
 
-      <p class="timer-display">0:0:0</p>
+      <p class="timer-display">{{list.clock}}</p>
 
     </div>
   </section>
+
 </main>

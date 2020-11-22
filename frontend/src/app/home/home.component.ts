@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
 
 import { faPlayCircle, faStopCircle, faPauseCircle } from '@fortawesome/free-regular-svg-icons'
+
+import { IDoList } from './interface';
 
 @Component({
   selector: 'app-home',
@@ -13,10 +14,31 @@ export class HomeComponent implements OnInit {
   pauseCircle = faPauseCircle;
   stopCircle = faStopCircle;
 
-  constructor(private myService: AuthService) { }
+  logo = '../../assets/logo.svg';
+
+  private form = {
+    userInput: '',
+  }
+
+  private doList: IDoList[] = []
+
+  constructor() { }
 
   ngOnInit(): void {
-    this.myService.getUserDetails();
+  }
+
+  handleSubmit() {
+    if (this.form.userInput !== '') {
+      this.doList = [
+        ...this.doList,
+        {
+          userInput: this.form.userInput,
+          clock: '0:0:0',
+        }
+      ]
+    }
+
+    this.form.userInput = '';
   }
 
 }
