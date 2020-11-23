@@ -18,16 +18,15 @@
 
   <section
     class="container_results"
-    *ngFor="let list of doList"
+    *ngFor="let list of doList; let index = index"
   >
     <p class="results_title">{{list.userInput}}</p>
-
     <div class="results_timer">
       <div class="timer-buttons">
         <button>
-          <fa-icon [icon]="pauseCircle"></fa-icon>
+          <fa-icon (click)="handleStartClick(index, 'pause')" [icon]="pauseCircle"></fa-icon>
         </button>
-        <button>
+        <button (click)="handleStartClick(index, 'start')" >
           <fa-icon [icon]="playCircle"></fa-icon>
         </button>
         <button>
