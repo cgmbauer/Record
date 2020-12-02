@@ -24,12 +24,12 @@
     <div class="results_timer">
       <div class="timer-buttons">
         <button>
-          <fa-icon (click)="handleStartClick(index, 'pause')" [icon]="pauseCircle"></fa-icon>
+          <fa-icon (click)="handleChronomether(index, 'pause')" [icon]="pauseCircle"></fa-icon>
         </button>
-        <button (click)="handleStartClick(index, 'start')" >
+        <button (click)="handleChronomether(index, 'start')" >
           <fa-icon [icon]="playCircle"></fa-icon>
         </button>
-        <button>
+        <button (click)="handleChronomether(index, 'stop')">
           <fa-icon [icon]="stopCircle"></fa-icon>
         </button>
       </div>

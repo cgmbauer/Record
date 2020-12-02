@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { faPlayCircle, faStopCircle, faPauseCircle } from '@fortawesome/free-regular-svg-icons'
 
-import { intervalToDuration } from 'date-fns';
-
 import { IDoList } from './dtos/interface';
+
+import countSeconds from './utils/countSeconds';
 
 @Component({
   selector: 'app-home',
@@ -44,11 +44,6 @@ export class HomeComponent implements OnInit {
             minutes: 0,
             hours: 0,
           },
-          accumulatedTime: {
-            seconds: 0,
-            minutes: 0,
-            hours: 0,
-          },
           isClockRunning: false,
         }
       ]
@@ -57,10 +52,21 @@ export class HomeComponent implements OnInit {
     this.form.userInput = '';
   }
 
-  handleStartClick(index: number, command: string) {
-    if (command === 'pause') {
-      console.log('entrou');
+  handleChronomether(index: number, command: string) {
+    if (command === 'pause' || command === 'stop') {
       this.doList[index].isClockRunning = false;
+
+      if (command === 'stop') {
+        Object.assign(this.doList[index].time, {
+          seconds: 0,
+          minutes: 0,
+          hours: 0,
+        });
+
+        Object.assign(this.doList[index], {
+          clock: '00:00:00',
+        });
+      }
 
       let intervalIndex: number;
 
@@ -70,65 +76,44 @@ export class HomeComponent implements OnInit {
           return index === record.index
         });
 
-        clearInterval(intervalToBeCleared[0].startTimer);
+        if (intervalToBeCleared[0].startTimer) {
+          clearInterval(intervalToBeCleared[0].startTimer);
+        }
 
         this.timerRecord.splice(intervalIndex, 1);
-
-        const sumOldTimeWithNewTime = {
-          seconds: this.doList[index].accumulatedTime.seconds +
-          this.doList[index].time.seconds,
-          minutes: this.doList[index].accumulatedTime.minutes +
-          this.doList[index].time.minutes,
-          hours: this.doList[index].accumulatedTime.hours +
-          this.doList[index].time.hours,
-        }
-
-        if (sumOldTimeWithNewTime.seconds > 59) {
-          sumOldTimeWithNewTime.seconds = 0;
-          sumOldTimeWithNewTime.minutes += 1;
-        }
-        if (sumOldTimeWithNewTime.minutes > 60) {
-          sumOldTimeWithNewTime.minutes = 0;
-          sumOldTimeWithNewTime.hours += 1;
-        }
 
       return true;
     }
 
-    const startDate = new Date();
-
     function updateTimer(doList: IDoList[]) {
       doList[index].isClockRunning = true;
 
+      const {seconds, minutes, hours} = doList[index].time;
 
-      let interval: Duration;
+      const {
+        seconds: countedSeconds,
+        minutes: countedMinutes,
+        hours: countedHours} = countSeconds(seconds, minutes, hours);
 
-      interval = intervalToDuration({
-        start: startDate,
-        end: new Date()
-      });
+      Object.assign(doList[index].time, {
+        seconds: countedSeconds,
+        minutes: countedMinutes,
+        hours: countedHours,
+      })
 
       const timerObject = {
-        seconds: interval.seconds < 10 ?
-        `0${interval.seconds.toString()}` :
-        `${interval.seconds.toString()}`,
-        minutes: interval.minutes < 10 ?
-        `0${interval.minutes.toString()}` :
-        `${interval.minutes.toString()}`,
-        hours: interval.hours < 10 ?
-        `0${interval.hours.toString()}` :
-        `${interval.hours.toString()}`,
+        seconds: countedSeconds < 10 ?
+        `0${countedSeconds.toString()}` :
+        `${countedSeconds.toString()}`,
+        minutes: countedMinutes < 10 ?
+        `0${countedMinutes.toString()}` :
+        `${countedMinutes.toString()}`,
+        hours: countedHours < 10 ?
+        `0${countedHours.toString()}` :
+        `${countedHours.toString()}`,
       }
 
-      Object.assign(doList[index], {
-        time: {
-          seconds: interval.seconds,
-          minutes: interval.minutes,
-          hours: interval.hours,
-        }
-      });
-
-      doList[index].clock = `${timerObject.hours}:${timerObject.minutes}:${timerObject.seconds}`
+      doList[index].clock = `${timerObject.hours}:${timerObject.minutes}:${timerObject.seconds}`;
     }
 
     if (!this.doList[index].isClockRunning) {
