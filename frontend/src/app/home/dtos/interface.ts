@@ -10,3 +10,13 @@ export interface IDoList {
   time: ITime;
   isClockRunning: boolean;
 }
+
+export interface IRecordObject {
+  startTimer: number;
+  index: number;
+}
+
+export interface IIntervalToBeCleared {
+  record?: IRecordObject;
+  i?: number;
+}

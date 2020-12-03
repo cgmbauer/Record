@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { faPlayCircle, faStopCircle, faPauseCircle } from '@fortawesome/free-regular-svg-icons'
 
-import { IDoList } from './dtos/interface';
+import { IDoList, IIntervalToBeCleared } from './dtos/interface';
 
 import countSeconds from './utils/countSeconds';
 
@@ -68,7 +68,7 @@ export class HomeComponent implements OnInit {
         });
       }
 
-      let intervalToBeCleared = {};
+      let intervalToBeCleared: IIntervalToBeCleared = {};
 
       this.timerRecord
         .map((record, i) => {
