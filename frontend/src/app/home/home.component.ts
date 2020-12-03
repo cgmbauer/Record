@@ -68,19 +68,21 @@ export class HomeComponent implements OnInit {
         });
       }
 
-      let intervalIndex: number;
+      let intervalToBeCleared = {};
 
-      const intervalToBeCleared = this.timerRecord
-        .filter((record, i) => {
-          intervalIndex = i;
-          return index === record.index
+      this.timerRecord
+        .map((record, i) => {
+          index === record.index ? Object.assign(intervalToBeCleared, {
+            record,
+            i,
+          }) : null
         });
 
-        if (intervalToBeCleared[0].startTimer) {
-          clearInterval(intervalToBeCleared[0].startTimer);
-        }
+      if (Object.entries(intervalToBeCleared).length > 0) {
+        clearInterval(intervalToBeCleared.record.startTimer);
 
-        this.timerRecord.splice(intervalIndex, 1);
+        this.timerRecord.splice(intervalToBeCleared.i, 1);
+      }
 
       return true;
     }
