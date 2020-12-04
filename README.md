@@ -11,13 +11,19 @@ Projeto feito para aprender os básicos do framework Angular.
 
 ### :rocket: Acesso
 
-:construction: Em breve :construction:
+https://record-cgmb.netlify.app/home
 
 ## :gear: Ferramentas
 
 - [Angular v.10.0.2](https://reactjs.org/).
 
 
-## :wrench: Como Utilizar?
+## :wrench: Próximas atualizações
 
-:construction: Em breve :construction:
+- Novo item adicionado aparecerá como primeiro da lista;
+
+- Itens adicionados serão gravados, junto com o tempo marcado, no localstorage;
+
+- Botão para deletar itens criados;
+
+- Botão para resetar localstorage.
