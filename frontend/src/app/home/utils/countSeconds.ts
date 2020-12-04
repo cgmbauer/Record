@@ -1,5 +1,4 @@
 import countMinutes from './countMinutes';
-import countHours from './countHours';
 
 interface ICountSeconds {
   seconds: number;

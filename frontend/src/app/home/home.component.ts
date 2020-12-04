@@ -1,9 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
-import { faPlayCircle, faStopCircle, faPauseCircle } from '@fortawesome/free-regular-svg-icons'
+import {
+  faPlayCircle,
+  faStopCircle,
+  faPauseCircle,
+  faTimesCircle
+} from '@fortawesome/free-regular-svg-icons'
+
+import { browserRefresh } from '../app.component';
 
 import { IDoList, IIntervalToBeCleared } from './dtos/interface';
 
+import updateLocalStorage from  './utils/updateLocalStorage';
 import countSeconds from './utils/countSeconds';
 
 @Component({
@@ -15,6 +23,7 @@ export class HomeComponent implements OnInit {
   playCircle = faPlayCircle;
   pauseCircle = faPauseCircle;
   stopCircle = faStopCircle;
+  timeCircle = faTimesCircle;
 
   logo = '../../assets/logo.svg';
 
@@ -24,13 +33,42 @@ export class HomeComponent implements OnInit {
 
   timerRecord = [];
 
+
   public doList: IDoList[];
   constructor() {
     this.doList = []
+
+    if (browserRefresh === true) {
+      this.timerRecord = [];
+
+      const localStorageStringList = localStorage.getItem('@Remote:list');
+
+      if (localStorageStringList) {
+        this.doList = JSON.parse(localStorageStringList);
+      }
+      console.log('chegou1');
+      if(Object.entries(this.doList).length > 0) {
+        console.log('chegou2');
+
+        this.doList = this.doList.map(list => Object.assign(list, {
+          isClockRunning: false,
+        }));
+
+        localStorage.setItem('@Remote:list', JSON.stringify(this.doList));
+        console.log('chegou3');
+
+      }
+    }
+
   }
 
   ngOnInit(): void {
+    setInterval(() => updateLocalStorage(this.doList), 60000);
   }
+
+  // handleDelete(index: number): void {
+  //   this.doList = this.doList.filter(list => list)
+  // }
 
   handleSubmit() {
     if (this.form.userInput !== '') {
@@ -46,7 +84,9 @@ export class HomeComponent implements OnInit {
           },
           isClockRunning: false,
         }
-      ]
+      ];
+
+      localStorage.setItem('@Remote:list', JSON.stringify(this.doList));
     }
 
     this.form.userInput = '';
@@ -83,6 +123,8 @@ export class HomeComponent implements OnInit {
 
         this.timerRecord.splice(intervalToBeCleared.i, 1);
       }
+
+      localStorage.setItem('@Remote:list', JSON.stringify(this.doList));
 
       return true;
     }
