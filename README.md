@@ -17,13 +17,13 @@ https://record-cgmb.netlify.app/home
 
 - [Angular v.10.0.2](https://reactjs.org/).
 
+## :computer: Funcionalidades
+É possível:
 
-## :wrench: Próximas atualizações
+- Adicionar uma tarefa para ser guardada e cronometrada;
 
-- Novo item adicionado aparecerá como primeiro da lista;
+- Cronometrar uma tarefa: ativar o cronômetro, parar o tempo e zerar a contagem do cronômetro;
 
-- Itens adicionados serão gravados, junto com o tempo marcado, no localstorage;
+- Deletar uma tarefa de sua listagem;
 
-- Botão para deletar itens criados;
-
-- Botão para resetar localstorage.
+- Limpar o Local Storage e, consequentemente, todos os itens de sua listagem ao mesmo tempo.
