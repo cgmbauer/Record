@@ -17,7 +17,7 @@ https://record-cgmb.netlify.app/home
 
 - [Angular v.10.0.2](https://reactjs.org/).
 
-## :computer: Funcionalidades
+## :bookmark_tabs: Funcionalidades
 É possível:
 
 - Adicionar uma tarefa para ser guardada e cronometrada;
