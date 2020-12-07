@@ -1,4 +1,40 @@
 <main class="home-container">
+  <section class="reset-container">
+    <button
+      class="reset-container__button"
+      (click)="handleModal()"
+    >
+    reset
+    </button>
+  </section>
+
+  <section
+    [ngClass]="{'modal_off': isModalOff}"
+    class="modal"
+  >
+    <div>
+      <h3>ATENÇÃO</h3>
+      <p>
+        Ao continuar com este processo, todos os itens de sua lista
+        <span>serão permanentemente deletados</span>.
+      </p>
+      <div class="modal__buttons">
+        <button
+         class="btn accept-button"
+         (click)="handleReset()"
+        >
+          CONTINUAR
+        </button>
+        <button
+          class="btn cancel-button"
+          (click)="handleModal()"
+        >
+        CANCELAR
+        </button>
+      </div>
+    </div>
+  </section>
+
   <section class="container__logo">
     <img [src]="logo" alt="record logo" />
   </section>
@@ -17,10 +53,41 @@
   </section>
 
   <section
+    tabindex="0"
     class="container_results"
-    *ngFor="let list of doList; let index = index"
+    *ngFor="let list of doList; let index = index;"
   >
+    <fa-icon
+      class="trash-icon"
+      [icon]="timeCircle"
+      (click)="handleDelete(list.id)"></fa-icon>
+
     <p class="results_title">{{list.userInput}}</p>
+
+    <div class="results_timer">
+      <div class="timer-buttons">
+        <button>
+          <fa-icon (click)="handleChronomether(list.id, 'pause')" [icon]="pauseCircle"></fa-icon>
+        </button>
+        <button (click)="handleChronomether(list.id, 'start')" >
+          <fa-icon [icon]="playCircle"></fa-icon>
+        </button>
+        <button (click)="handleChronomether(list.id, 'stop')">
+          <fa-icon [icon]="stopCircle"></fa-icon>
+        </button>
+      </div>
+
+      <p class="timer-display">{{list.clock}}</p>
+
+    </div>
+  </section>
+
+  <!-- <section
+    tabindex="0"
+    class="container_results"
+  >
+    <fa-icon class="trash-icon" [icon]="timeCircle"></fa-icon>
+    <p class="results_title">Something</p>
     <div class="results_timer">
       <div class="timer-buttons">
         <button>
@@ -34,10 +101,10 @@
         </button>
       </div>
 
-      <p class="timer-display">{{list.clock}}</p>
+      <p class="timer-display">00:00:00</p>
 
     </div>
-  </section>
+  </section> -->
 
 </main>
 <section class="bg-container">

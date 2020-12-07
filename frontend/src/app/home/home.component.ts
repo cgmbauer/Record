@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import {v4 as uuidv4} from 'uuid';
+
 import {
   faPlayCircle,
   faStopCircle,
@@ -27,6 +29,8 @@ export class HomeComponent implements OnInit {
 
   logo = '../../assets/logo.svg';
 
+  isModalOff = true;
+
   form = {
     userInput: '',
   }
@@ -41,21 +45,19 @@ export class HomeComponent implements OnInit {
     if (browserRefresh === true) {
       this.timerRecord = [];
 
-      const localStorageStringList = localStorage.getItem('@Remote:list');
+      const localStorageStringList = localStorage.getItem('@Record:list');
 
       if (localStorageStringList) {
         this.doList = JSON.parse(localStorageStringList);
       }
-      console.log('chegou1');
+
       if(Object.entries(this.doList).length > 0) {
-        console.log('chegou2');
 
         this.doList = this.doList.map(list => Object.assign(list, {
           isClockRunning: false,
         }));
 
-        localStorage.setItem('@Remote:list', JSON.stringify(this.doList));
-        console.log('chegou3');
+        localStorage.setItem('@Record:list', JSON.stringify(this.doList));
 
       }
     }
@@ -66,15 +68,29 @@ export class HomeComponent implements OnInit {
     setInterval(() => updateLocalStorage(this.doList), 60000);
   }
 
-  // handleDelete(index: number): void {
-  //   this.doList = this.doList.filter(list => list)
-  // }
+  handleModal(): void {
+    this.isModalOff = !this.isModalOff;
+  }
 
-  handleSubmit() {
+  handleReset(): void {
+    localStorage.removeItem('@Record:list');
+
+    this.doList = [];
+
+    this.handleModal();
+  }
+
+  handleDelete(id: string): void {
+    this.doList = this.doList.filter(item => item.id !== id);
+
+    localStorage.setItem('@Record:list', JSON.stringify(this.doList));
+  }
+
+  handleSubmit(): void {
     if (this.form.userInput !== '') {
       this.doList = [
-        ...this.doList,
         {
+          id: uuidv4(),
           userInput: this.form.userInput,
           clock: '00:00:00',
           time: {
@@ -83,27 +99,31 @@ export class HomeComponent implements OnInit {
             hours: 0,
           },
           isClockRunning: false,
-        }
+        },
+        ...this.doList,
       ];
 
-      localStorage.setItem('@Remote:list', JSON.stringify(this.doList));
+      localStorage.setItem('@Record:list', JSON.stringify(this.doList));
     }
 
     this.form.userInput = '';
   }
 
-  handleChronomether(index: number, command: string) {
+  handleChronomether(id: string, command: string) {
+    const [ selectedItemFromDoList ] = this.doList
+      .filter(item => item.id === id);
+
     if (command === 'pause' || command === 'stop') {
-      this.doList[index].isClockRunning = false;
+      selectedItemFromDoList.isClockRunning = false;
 
       if (command === 'stop') {
-        Object.assign(this.doList[index].time, {
+        Object.assign(selectedItemFromDoList.time, {
           seconds: 0,
           minutes: 0,
           hours: 0,
         });
 
-        Object.assign(this.doList[index], {
+        Object.assign(selectedItemFromDoList, {
           clock: '00:00:00',
         });
       }
@@ -112,7 +132,7 @@ export class HomeComponent implements OnInit {
 
       this.timerRecord
         .map((record, i) => {
-          index === record.index ? Object.assign(intervalToBeCleared, {
+          id === record.id ? Object.assign(intervalToBeCleared, {
             record,
             i,
           }) : null
@@ -124,22 +144,27 @@ export class HomeComponent implements OnInit {
         this.timerRecord.splice(intervalToBeCleared.i, 1);
       }
 
-      localStorage.setItem('@Remote:list', JSON.stringify(this.doList));
+      localStorage.setItem('@Record:list', JSON.stringify(this.doList));
+
+      this.doList = this.doList.map(item => item.id === id ?
+        selectedItemFromDoList :
+        item
+      );
 
       return true;
     }
 
     function updateTimer(doList: IDoList[]) {
-      doList[index].isClockRunning = true;
+      selectedItemFromDoList.isClockRunning = true;
 
-      const {seconds, minutes, hours} = doList[index].time;
+      const {seconds, minutes, hours} = selectedItemFromDoList.time;
 
       const {
         seconds: countedSeconds,
         minutes: countedMinutes,
         hours: countedHours} = countSeconds(seconds, minutes, hours);
 
-      Object.assign(doList[index].time, {
+      Object.assign(selectedItemFromDoList.time, {
         seconds: countedSeconds,
         minutes: countedMinutes,
         hours: countedHours,
@@ -157,17 +182,19 @@ export class HomeComponent implements OnInit {
         `${countedHours.toString()}`,
       }
 
-      doList[index].clock = `${timerObject.hours}:${timerObject.minutes}:${timerObject.seconds}`;
+      selectedItemFromDoList.clock = `${timerObject.hours}:${timerObject.minutes}:${timerObject.seconds}`;
+
+      doList = doList.map(item => item.id === id ? selectedItemFromDoList : item);
     }
 
-    if (!this.doList[index].isClockRunning) {
+    if (!selectedItemFromDoList.isClockRunning) {
       const startTimer = setInterval(() => updateTimer(this.doList), 1000);
 
       this.timerRecord = [
         ...this.timerRecord,
         {
           startTimer,
-          index,
+          id,
         }
       ]
     } else {

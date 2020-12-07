@@ -15,9 +15,7 @@ export class AppComponent {
   constructor(private router: Router) {
     this.subscription = router.events.subscribe(event => {
       if (event instanceof NavigationStart) {
-        console.log(browserRefresh);
         browserRefresh = !router.navigated;
-        console.log(browserRefresh);
       }
     });
   }

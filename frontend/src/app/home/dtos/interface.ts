@@ -5,6 +5,7 @@ interface ITime {
 }
 
 export interface IDoList {
+  id: string;
   userInput: string;
   clock: string;
   time: ITime;
