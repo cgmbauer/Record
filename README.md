@@ -15,7 +15,7 @@ https://record-cgmb.netlify.app/home
 
 ## :gear: Ferramentas
 
-- [Angular v.10.0.2](https://reactjs.org/).
+- [Angular v.10.0.2](https://angular.io/).
 
 ## :bookmark_tabs: Funcionalidades
 É possível:
